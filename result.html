@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Eo_circle_light-blue_white_letter-r.svg/1024px-Eo_circle_light-blue_white_letter-r.svg.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height: 150vh; */
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333333;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        p {
+            color: #666666;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .success {
+            color: #28a745;
+        }
+
+        .error {
+            color: #dc3545;
+        }
+
+        .score {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .answer-list {
+            width: 100%;
+            text-align: left;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .answer-container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .answer.correct {
+            color: #28a745;
+        }
+
+        .answer.incorrect {
+            color: #dc3545;
+        }
+
+        .btn-check-answers {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 20px;
+            }
+
+            .score {
+                font-size: 24px;
+            }
+
+            .icon {
+                font-size: 36px;
+            }
+        }
+        @media (max-width:1281px) {
+            .container{
+                margin-top: 100px;
+            }
+            
+        }
+        @media (min-width:1290px) {
+
+            .container{
+                margin-top: 190px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button style="position: absolute; top: 6px; right: 6px;" class="btn btn-danger" onclick="logout()">Log out</button>
+    </div>
+    
+    <div class="container">
+        <h1>Quiz Result</h1>
+        <div class="icon" id="result-icon"></div>
+        <p id="result-message"></p>
+        <p class="score" id="result-score"></p>
+        <button class="btn btn-primary btn-check-answers" onclick="toggleAnswers()">Check Answers</button>
+        <div id="answer-list" class="answer-list"></div>
+    </div>
+
+    <script>
+        function logout() {
+            location.href = 'login.html';
+        }
+
+        function toggleAnswers() {
+            var answerList = document.getElementById('answer-list');
+            if (answerList.style.display === 'none' || answerList.style.display === '') {
+                answerList.style.display = 'block';
+                document.querySelector('.btn-check-answers').innerText = 'Hide Answers';
+            } else {
+                answerList.style.display = 'none';
+                document.querySelector('.btn-check-answers').innerText = 'Check Answers';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var score = sessionStorage.getItem('score');
+            var userAnswers = JSON.parse(sessionStorage.getItem('userAnswers'));
+
+            if (score >= 7) {
+                document.getElementById('result-icon').innerHTML = '<i class="fas fa-check-circle success"></i>';
+                document.getElementById('result-message').innerText = 'Congratulations! You passed the quiz.';
+            } else {
+                document.getElementById('result-icon').innerHTML = '<i class="fas fa-times-circle error"></i>';
+                document.getElementById('result-message').innerText = 'Oops! You need to work harder.';
+            }
+
+            document.getElementById('result-score').innerHTML = 'Your score: ' +  (score/10) * 100+'% ';
+
+            var answerList = document.getElementById('answer-list');
+            userAnswers.forEach((answer, index) => {
+                var answerContainer = document.createElement('div');
+                answerContainer.className = 'answer-container';
+
+                var answerElement = document.createElement('div');
+                answerElement.className = 'answer ' + (answer.selectedAnswer === answer.correctAnswer ? 'correct' : 'incorrect');
+                answerElement.innerHTML = `<strong>Q${index + 1}:</strong> ${answer.question}<br>
+                                           <strong>Your answer:</strong> ${answer.selectedAnswer}<br>
+                                           <strong>Correct answer:</strong> ${answer.correctAnswer}`;
+
+                answerContainer.appendChild(answerElement);
+                answerList.appendChild(answerContainer);
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Application</title>
+    <link rel="shortcut icon" href="https://cdn-icons-png.freepik.com/512/6819/6819264.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #navbar {
+            background-color: #0066cc;
+            color: #ffffff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            animation: slideInDown 1s ease-out;
+        }
+
+        #main {
+            max-width: 800px;
+            width: 100%;
+            margin: 10px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 2s ease-in;
+        }
+
+        .time {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #timer {
+            border: 4px solid #ffffff;
+            padding: 5px 20px;
+            border-radius: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        #question {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333333;
+            animation: slideInLeft 1s ease-in-out;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background-color: #f0f8ff;
+        }
+
+        input[type="radio"] {
+            transform: scale(1.3);
+            margin-right: 15px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #555555;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        #btn {
+            display: block;
+            margin: 30px auto 0;
+            background-color: #0066cc;
+            color: #ffffff;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        #btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        #btn:hover:not(:disabled) {
+            background-color: #005bb5;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+            }
+        }
+
+        @media (max-width: 768px) {
+            #navbar {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px 20px;
+            }
+
+            #main {
+                margin: 10px 10px;
+                padding: 20px;
+            }
+            #timer{
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            #timer {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="navbar">
+        <span id="timer">
+            <span id="min" class="time">1</span>
+            <span class="time">:</span>
+            <span class="time" id="sec">60</span>
+        </span>
+
+        <h1>Quiz Application</h1>
+
+        <span class="time">
+            <img width="40px"
+                src="https://static-00.iconduck.com/assets.00/waving-hand-default-emoji-510x512-y8yjikds.png"
+                alt="Waving Hand Emoji">
+            <script>
+                document.write("Hi " + sessionStorage.getItem('names'))
+            </script>
+        </span>
+    </nav>
+    <div id="main">
+        <p id="question"></p>
+        <div class="option">
+            <input onclick="btnClick()" name="ans" value="1" type="radio" id="inp1">
+            <label for="inp1" id="opt1"></label>
+        </div>
+        <div class="option">
+            <input onclick="btnClick()" type="radio" name="ans" value="2" id="inp2">
+            <label for="inp2" id="opt2"></label>
+        </div>
+        <div class="option">
+            <input onclick="btnClick()" type="radio" name="ans" value="3" id="inp3">
+            <label for="inp3" id="opt3"></label>
+        </div>
+        <div class="option">
+            <input onclick="btnClick()" type="radio" name="ans" value="3" id="inp4">
+            <label for="inp4" id="opt4"></label>
+        </div>
+        <button class="btn btn-info" id="btn" disabled onclick="nextQuestion()">NEXT</button>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>
+
+
