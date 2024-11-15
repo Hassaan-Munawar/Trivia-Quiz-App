@@ -12,8 +12,4 @@ Answer Review: Dive deep into your answers and learn from any mistakes with our 
 
 Logout Option: Manage your sessions efficiently with a quick and easy logout function.
 
-Curious to see how it works? Check out the demo in the video below and let us know what you think!
-
 Ready to enhance your learning experience? Give QuizMaster a try today and discover the difference it can make!
-
-Hosted Link : https://lnkd.in/euhUTnsS
